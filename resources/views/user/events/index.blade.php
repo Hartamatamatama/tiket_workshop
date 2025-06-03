@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('user.layouts.user')
 
 @section('title', 'Daftar Event')
 

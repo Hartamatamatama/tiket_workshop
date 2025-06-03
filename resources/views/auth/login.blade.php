@@ -41,7 +41,8 @@
                             <p class="text-gray-400">Silakan isi detail login Anda untuk melanjutkan</p>
                         </div>
         
-                        <form id="loginForm" class="space-y-6">
+                        <form id="loginForm" class="space-y-6" method="POST" action="{{ route('login') }}">
+                            @csrf
                             <div>
                                 <label for="email" class="block text-sm font-medium mb-2">Alamat Email</label>
                                 <div class="relative">
@@ -115,7 +116,6 @@
         
                 // Form submit handler
                 document.getElementById('loginForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
                     // Here you would typically send the form data to your server
                     const email = document.getElementById('email').value;
                     const password = document.getElementById('password').value;
@@ -126,17 +126,6 @@
                     const submitBtn = this.querySelector('button[type="submit"]');
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memproses...';
                     submitBtn.disabled = true;
-                    
-                    // Simulate API call
-                    setTimeout(() => {
-                        submitBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk';
-                        submitBtn.disabled = false;
-                        
-                        // For demo purposes, just show a success message
-                        alert('Anda akan diarahkan ke dashboard setelah berhasil login');
-                        // In real app, you would redirect like:
-                        // window.location.href = 'dashboard.html';
-                    }, 1500);
                 });
         
                 // Animation for elements when page loads

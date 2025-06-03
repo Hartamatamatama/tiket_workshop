@@ -5,6 +5,14 @@ use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\ReviewController;
+use App\Http\Controllers\Admin\AdminCategoryController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminEventController;
+use App\Http\Controllers\Admin\AdminPaymentController;
+use App\Http\Controllers\Admin\AdminReviewController;
+use App\Http\Controllers\Admin\AdminVenueController;
+use App\Http\Controllers\AuthController;
+use App\Http\MiddleWare\CheckRole;
 
 Route::get('/', function () {
     return view('landing');
@@ -18,13 +26,22 @@ Route::get('/about', function () {
     return view('about');
 })->name('about');
 
+
 // User authentication routes
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('register');
+Route::post('/register', [AuthController::class, 'register']);
+
+// CHECK ROLE ROUTE
+Route::middleware(['checkrole:admin'])->get('/admin/dashboard', fn() => view('admin.dashboard'));
+Route::middleware(['checkrole:user'])->get('/user/home', fn() => view('tickets'));
+// Route::middleware(['auth', CheckRole::class . ':atasan'])->get('/atasan/overview', fn() => view('atasan.overview'));
 
 // AUTH USER ROUTES
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'checkrole:user'])->group(function () {
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
     Route::get('/events/{slug}', [EventController::class, 'show'])->name('events.show');
 
@@ -39,8 +56,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/review/{event}', [ReviewController::class, 'store'])->name('review.store');
 });
 
-// Admin routes
-Route::middleware(['auth', 'is_admin'])->prefix('admin')->name('admin.')->group(function () {
+// AUTH ADMIN ROUTES
+Route::middleware(['auth', 'checkrole'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('events', AdminEventController::class);
