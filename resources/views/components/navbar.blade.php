@@ -15,8 +15,8 @@
         </div>
         <div class="md:hidden h-3"></div>
         <div class="md:hidden grid grid-cols-2 gap-2">
-           <span class="text-center text-white bg-blue-500 p-1.5 rounded-full font-bold cursor-pointer hover:bg-blue-700">Masuk</span>
-           <span class="text-center text-blue-500 border-2 border-blue-500 p-1.5 rounded-full font-bold cursor-pointer hover:text-white hover:bg-blue-500 transition-all">Daftar</span>
+           <span class="text-center text-white bg-blue-500 p-1.5 rounded-full font-bold cursor-pointer hover:bg-blue-700"><a href="{{ route('login') }}">Masuk</a></span>
+          <span class="text-center text-blue-500 border-2 border-blue-500 p-1.5 rounded-full font-bold cursor-pointer hover:text-white hover:bg-blue-500 transition-all"> <a href="#">Daftar</a></span>
         </div>
     </div>
 </nav>
