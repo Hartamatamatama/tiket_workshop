@@ -41,7 +41,7 @@
                             <p class="text-gray-400">Silakan isi detail login Anda untuk melanjutkan</p>
                         </div>
         
-                        <form id="loginForm" class="space-y-6" method="POST" action="{{ route('login') }}">
+                        <form id="loginForm" class="space-y-6" method="POST" action="{{ route('login.post') }}">
                             @csrf
                             <div>
                                 <label for="email" class="block text-sm font-medium mb-2">Alamat Email</label>
@@ -80,11 +80,20 @@
                                 </div>
                             </div>
         
-                            <button type="submit" 
-                                class="btn-glow w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                            <button type="submit" class="btn-glow w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
                                 <i class="fas fa-sign-in-alt mr-2"></i> Masuk
                             </button>
                         </form>
+
+                        @if ($errors->any())
+                        <div class="bg-red-400" role="alert">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li class="text-white text-3xl">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
         
                         <div class="mt-8 text-center text-sm text-gray-400">
                             Belum punya akun? 
@@ -114,19 +123,7 @@
                     }
                 });
         
-                // Form submit handler
-                document.getElementById('loginForm').addEventListener('submit', function(e) {
-                    // Here you would typically send the form data to your server
-                    const email = document.getElementById('email').value;
-                    const password = document.getElementById('password').value;
-                    
-                    console.log('Login attempt:', { email, password });
-                    
-                    // Simulate login processing
-                    const submitBtn = this.querySelector('button[type="submit"]');
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memproses...';
-                    submitBtn.disabled = true;
-                });
+                
         
                 // Animation for elements when page loads
                 document.addEventListener('DOMContentLoaded', () => {

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -18,26 +19,37 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function login(Request $request)
+     public function login(Request $request) : RedirectResponse
     {
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Coba login
         $credentials = $request->only('email', 'password');
+        Auth::attempt($credentials);
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate(); // amankan sesi
+            $request->session()->save(); // pastikan session tersimpan
 
-        if (Auth::attempt($credentials)) {   
-            
-            $request->session()->regenerate();
-            // dd('login berhasil', auth()->user()->role);
+            // Ambil role user
+            $role = Auth::user()->role;
 
-            // Redirect berdasarkan role
-            $role = auth()->user()->role;
+            // Arahkan user berdasarkan role
             return match ($role) {
-                'admin' => redirect('/admin/dashboard'),
-                'user' => redirect('/user/home'),
-                'atasan' => redirect('/atasan/overview'),
-                default => redirect('/'),
+                'admin' => redirect()->route('admin.dashboard'),
+                'user' => redirect()->route('user.dashboard'),
+                'atasan' => redirect()->intended('/atasan/dashboard'),
+                default => redirect()->intended('/dashboard'),
             };
         }
 
-        return back()->withErrors(['email' => 'Login gagal. Periksa email dan password.']);
+        // Jika gagal login
+        return back()->withErrors([
+            'email' => 'Email atau password salah.',
+        ])->withInput();
     }
 
     public function register(Request $request)
