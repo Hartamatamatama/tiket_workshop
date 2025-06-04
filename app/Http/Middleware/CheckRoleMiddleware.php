@@ -23,7 +23,18 @@ class CheckRoleMiddleware
         }
 
         if (Auth::guard($guard)->user()->role !== $role) {
-            abort(403, 'Akses ditolak: role tidak diizinkan.');
+            $authRole = Auth::guard($guard)->user()->role;
+            if ($authRole === 'admin') {
+            return redirect()->route('admin.dashboard');
+            }
+
+            if ($authRole === 'user') {
+                return redirect()->route('user.dashboard');
+            }
+
+            if ($authRole === 'atasan') {
+                return redirect()->route('atasan.dashboard');
+            }
         }
 
         return $next($request);

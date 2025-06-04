@@ -97,7 +97,7 @@
         
                         <div class="mt-8 text-center text-sm text-gray-400">
                             Belum punya akun? 
-                            <a href="#" class="font-medium text-blue-400 hover:text-blue-300">
+                            <a href="{{ route('register') }}" class="font-medium text-blue-400 hover:text-blue-300">
                                 Daftar sekarang
                             </a>
                         </div>

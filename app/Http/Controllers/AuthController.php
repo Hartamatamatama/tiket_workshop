@@ -54,13 +54,15 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:users',
+            'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
             'role' => 'required|in:admin,user,atasan',
         ]);
 
+        // Membuat user baru
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -68,6 +70,7 @@ class AuthController extends Controller
             'role' => $request->role,
         ]);
 
+        // Redirect ke halaman login dengan pesan sukses
         return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 
