@@ -37,12 +37,33 @@
                     <div class="p-8">
                         <div class="text-center mb-8">
                             <i class="fas fa-user-lock text-5xl text-blue-500 mb-4"></i>
-                            <h1 class="text-2xl font-bold mb-2">Masuk ke Akun Anda</h1>
-                            <p class="text-gray-400">Silakan isi detail login Anda untuk melanjutkan</p>
+                            <h1 class="text-2xl font-bold mb-2">Daftar Sekarang</h1>
+                            <p class="text-gray-400">Silakan isi detail registrasi Anda untuk melanjutkan</p>
                         </div>
         
-                        <form id="loginForm" class="space-y-6" method="POST" action="/login">
+                        <form id="loginForm" class="space-y-6" method="POST" action="{{ route('register.post') }}">
+                            @if ($errors->any())
+                                <div class="mb-4 p-4 bg-red-600 bg-opacity-20 text-red-300 rounded-lg text-sm">
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
                             @csrf
+                            <div>
+                                <label for="name" class="block text-sm font-medium mb-2">Nama</label>
+                                <div class="relative">
+                                <input type="text" id="name" name="name" 
+                                    class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none @error('name') border-red-500 @enderror" 
+                                    placeholder="Johnny" value="{{ old('name') }}" required autofocus>
+                                @error('name')
+                                    <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                                @enderror
+                                </div>
+                            </div>
+
                             <div>
                                 <label for="email" class="block text-sm font-medium mb-2">Alamat Email</label>
                                 <div class="relative">
@@ -50,8 +71,11 @@
                                         <i class="fas fa-envelope text-gray-400"></i>
                                     </div>
                                     <input type="email" id="email" name="email" 
-                                        class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none" 
-                                        placeholder="nama@email.com" required>
+                                        class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none @error('email') border-red-500 @enderror" 
+                                        placeholder="nama@email.com" value="{{ old('email') }}" required>
+                                    @error('email')
+                                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
                                 </div>
                             </div>
         
@@ -62,34 +86,41 @@
                                         <i class="fas fa-lock text-gray-400"></i>
                                     </div>
                                     <input type="password" id="password" name="password" 
+                                        class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none @error('password') border-red-500 @enderror" 
+                                        placeholder="••••••••" required>
+                                    @error('password')
+                                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                                    @enderror
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="password_confirmation" class="block text-sm font-medium mb-2">Konfirmasi Kata Sandi</label>
+                                <div class="relative">
+                                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                        <i class="fas fa-lock text-gray-400"></i>
+                                    </div>
+                                    <input type="password" id="password_confirmation" name="password_confirmation" 
                                         class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none" 
                                         placeholder="••••••••" required>
-                                    <button type="button" id="togglePassword" class="absolute right-3 top-3 text-gray-400 hover:text-blue-400">
+                                    <button type="button" id="togglePasswordConfimation" class="absolute right-3 top-3 text-gray-400 hover:text-blue-400">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
                             </div>
-        
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <input id="remember-me" type="checkbox" 
-                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                    <label for="remember-me" class="ml-2 block text-sm text-gray-300">
-                                        Ingat saya
-                                    </label>
-                                </div>
-                            </div>
+
+                            <input name="role" type="hidden" value="user" required>
         
                             <button type="submit" 
                                 class="btn-glow w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
-                                <i class="fas fa-sign-in-alt mr-2"></i> Masuk
+                                <i class="fas fa-sign-in-alt mr-2"></i> Daftar
                             </button>
                         </form>
         
                         <div class="mt-8 text-center text-sm text-gray-400">
-                            Belum punya akun? 
+                            Sudah punya akun? 
                             <a href="#" class="font-medium text-blue-400 hover:text-blue-300">
-                                Daftar sekarang
+                                Masuk sekarang
                             </a>
                         </div>
                     </div>
@@ -112,32 +143,28 @@
                         password.type = 'password';
                         icon.classList.replace('fa-eye-slash', 'fa-eye');
                     }
+                    
+                });
+
+                document.getElementById('togglePasswordConfimation').addEventListener('click', function() {
+                    const passwordConfirmation = document.getElementById('password_confirmation');
+                    const icon = this.querySelector('i');
+                   
+                    if (passwordConfirmation.type === 'password') {
+                        passwordConfirmation.type = 'text';
+                        icon.classList.replace('fa-eye', 'fa-eye-slash');
+                    } else {
+                        passwordConfirmation.type = 'password';
+                        icon.classList.replace('fa-eye-slash', 'fa-eye');
+                    }
                 });
         
                 // Form submit handler
                 document.getElementById('loginForm').addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    // Here you would typically send the form data to your server
-                    const email = document.getElementById('email').value;
-                    const password = document.getElementById('password').value;
-                    
-                    console.log('Login attempt:', { email, password });
-                    
-                    // Simulate login processing
+                    // Simulate Register processing
                     const submitBtn = this.querySelector('button[type="submit"]');
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Memproses...';
                     submitBtn.disabled = true;
-                    
-                    // Simulate API call
-                    setTimeout(() => {
-                        submitBtn.innerHTML = '<i class="fas fa-sign-in-alt mr-2"></i> Masuk';
-                        submitBtn.disabled = false;
-                        
-                        // For demo purposes, just show a success message
-                        alert('Anda akan diarahkan ke dashboard setelah berhasil login');
-                        // In real app, you would redirect like:
-                        // window.location.href = 'dashboard.html';
-                    }, 1500);
                 });
         
                 // Animation for elements when page loads

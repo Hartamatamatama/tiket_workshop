@@ -58,7 +58,7 @@
         </div>
         <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
             <p class="text-gray-500 text-sm mb-4 md:mb-0">
-                &copy; 2023 DigitalMastery. All rights reserved.
+                &copy; 2025 DigitalMastery. All rights reserved.
             </p>
             <div class="flex space-x-6">
                 <a href="#" class="text-gray-500 hover:text-blue-400 text-sm transition">Privacy Policy</a>
