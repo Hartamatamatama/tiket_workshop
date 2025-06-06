@@ -40,7 +40,7 @@
                             <h1 class="text-2xl font-bold mb-2">Daftar Sekarang</h1>
                             <p class="text-gray-400">Silakan isi detail registrasi Anda untuk melanjutkan</p>
                         </div>
-        
+
                         <form id="loginForm" class="space-y-6" method="POST" action="{{ route('register.post') }}">
                             @if ($errors->any())
                                 <div class="mb-4 p-4 bg-red-600 bg-opacity-20 text-red-300 rounded-lg text-sm">
@@ -78,7 +78,7 @@
                                     @enderror
                                 </div>
                             </div>
-        
+
                             <div>
                                 <label for="password" class="block text-sm font-medium mb-2">Kata Sandi</label>
                                 <div class="relative">
@@ -88,12 +88,16 @@
                                     <input type="password" id="password" name="password" 
                                         class="input-field pl-10 w-full px-4 py-3 rounded-lg focus:outline-none @error('password') border-red-500 @enderror" 
                                         placeholder="••••••••" required>
+                                    <button type="button" id="togglePassword" class="absolute right-3 top-3 text-gray-400 hover:text-blue-400">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
                                     @error('password')
                                         <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
                                     @enderror
                                     </button>
                                 </div>
                             </div>
+
                             <div>
                                 <label for="password_confirmation" class="block text-sm font-medium mb-2">Konfirmasi Kata Sandi</label>
                                 <div class="relative">
@@ -110,16 +114,16 @@
                             </div>
 
                             <input name="role" type="hidden" value="user" required>
-        
+
                             <button type="submit" 
                                 class="btn-glow w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
                                 <i class="fas fa-sign-in-alt mr-2"></i> Daftar
                             </button>
                         </form>
-        
+
                         <div class="mt-8 text-center text-sm text-gray-400">
                             Sudah punya akun? 
-                            <a href="#" class="font-medium text-blue-400 hover:text-blue-300">
+                            <a href="{{ route('login') }}" class="font-medium text-blue-400 hover:text-blue-300">
                                 Masuk sekarang
                             </a>
                         </div>

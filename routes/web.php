@@ -6,6 +6,7 @@ use App\Http\Controllers\User\OrderController;
 use App\Http\Controllers\User\PaymentController;
 use App\Http\Controllers\User\ReviewController;
 use App\Http\Controllers\User\DashboardController;
+use App\Http\Controllers\User\BookingController;
 use App\Http\Controllers\Admin\AdminCategoryController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminEventController;
@@ -43,10 +44,13 @@ Route::middleware(['auth' , 'role:admin'])->get('/admin/dashboard', fn() => view
 
 // AUTH USER ROUTES
 Route::middleware(['auth', 'role:user'])->group(function () {
-    Route::get('/user/dashboard', fn() => view('user.dashboard'))->name('user.dashboard');
+    Route::get('/user/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
 
     Route::get('/events', [EventController::class, 'index'])->name('events.index');
     Route::get('/events/{slug}', [EventController::class, 'show'])->name('events.show');
+
+    Route::get('/user/bookings', [BookingController::class, 'index'])->name('user.bookings.index');
+    Route::get('/user/bookings/{slug}', [BookingController::class, 'show'])->name('user.bookings.show');
 
     Route::get('/order/{event}', [OrderController::class, 'create'])->name('order.create');
     Route::post('/order/{event}', [OrderController::class, 'store'])->name('order.store');

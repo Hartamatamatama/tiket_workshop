@@ -18,9 +18,9 @@
 
                 @auth
                     <a href="{{ route('user.dashboard') }}" class="hover:text-blue-400 transition {{ is_active('user/dashboard') }}">Beranda</a>
-                    <a href="{{ route('landing') }}" class="hover:text-blue-400 transition {{ is_active('bookings') }}">Booking</a>
+                    <a href="{{ route('user.bookings.index') }}" class="hover:text-blue-400 transition {{ is_active('user/bookings') }}">Booking</a>
                     <a href="{{ route('landing') }}" class="hover:text-blue-400 transition {{ is_active('payments') }}">Pembayaran</a>
-                    <a href="{{ route('landing') }}" class="hover:text-blue-400 transition {{ is_active('reviews') }}">Reviews</a>
+                    {{-- <a href="{{ route('landing') }}" class="hover:text-blue-400 transition {{ is_active('reviews') }}">Reviews</a> --}}
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
                         <button type="submit" class="text-center text-white bg-blue-500 px-4 py-2 rounded-full font-bold hover:bg-blue-700 hidden md:block transition-all">
