@@ -1,7 +1,5 @@
-@extends('layouts.user')
-
-@section('title', 'Tiket Saya')
-
+@extends('user.layouts.user')
+@section('title', 'Pembayaran | Digital Mastery')
 @section('content')
 <h1 class="mb-4">Tiket Saya</h1>
 <table class="table">

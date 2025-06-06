@@ -30,9 +30,10 @@
         <body class="gradient-bg min-h-screen text-gray-100 font-sans">
             <!-- Navigation -->
             @include('components.navbar')
-           
+            
             <!-- Main Content -->
             <main class="flex items-center justify-center py-12 px-4">
+                @include('components.toast')
                 <div class="login-card w-full max-w-md rounded-xl overflow-hidden shadow-2xl">
                     <div class="p-8">
                         <div class="text-center mb-8">
@@ -40,6 +41,16 @@
                             <h1 class="text-2xl font-bold mb-2">Masuk ke Akun Anda</h1>
                             <p class="text-gray-400">Silakan isi detail login Anda untuk melanjutkan</p>
                         </div>
+
+                        @if ($errors->any())
+                        <div class="mb-4 p-4 bg-red-600 bg-opacity-20 text-red-300 rounded-lg text-sm">
+                            <ul class="list-disc pl-5 space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                        @endif
         
                         <form id="loginForm" class="space-y-6" method="POST" action="{{ route('login.post') }}">
                             @csrf
@@ -70,30 +81,10 @@
                                 </div>
                             </div>
         
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center">
-                                    <input id="remember-me" type="checkbox" 
-                                        class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
-                                    <label for="remember-me" class="ml-2 block text-sm text-gray-300">
-                                        Ingat saya
-                                    </label>
-                                </div>
-                            </div>
-        
                             <button type="submit" class="btn-glow w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
                                 <i class="fas fa-sign-in-alt mr-2"></i> Masuk
                             </button>
                         </form>
-
-                        @if ($errors->any())
-                        <div class="bg-red-400" role="alert">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li class="text-white text-3xl">{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
         
                         <div class="mt-8 text-center text-sm text-gray-400">
                             Belum punya akun? 

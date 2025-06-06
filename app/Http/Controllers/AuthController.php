@@ -40,7 +40,7 @@ class AuthController extends Controller
             // Arahkan user berdasarkan role
             return match ($role) {
                 'admin' => redirect()->route('admin.dashboard'),
-                'user' => redirect()->route('user.dashboard'),
+                'user' => redirect()->route('user.dashboard')->with('success', 'Selamat datang di dashboard!'),
                 'atasan' => redirect()->intended('/atasan/dashboard'),
                 default => redirect()->intended('/dashboard'),
             };

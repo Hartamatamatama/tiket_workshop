@@ -12,7 +12,7 @@ class PaymentController extends Controller
         return view('user.payment.show', compact('order'));
     }
 
-    public function store(Request $request, Order $order)
+    public function store(Request $request, BookingTicket $booking)
     {
         $request->validate([
             'proof' => 'required|image|max:2048',
@@ -21,7 +21,7 @@ class PaymentController extends Controller
         $path = $request->file('proof')->store('payments', 'public');
 
         Payment::create([
-            'order_id' => $order->id,
+            'order_id' => $booking->booking_ticket_id,
             'proof' => $path,
             'status' => 'waiting',
         ]);
